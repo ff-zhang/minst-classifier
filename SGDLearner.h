@@ -13,19 +13,22 @@ class SGDLearner {
     typedef Eigen::Matrix<float, imagePixels, 1> VecDom;
     typedef Eigen::Matrix<float, imagePixels * 10, 1> VecLab;
 
-    static const float learningRate;
-    static const float numSamples;
+    const float learningRate;
 
     VecLab weights;
 
     VecLab embed(VecDom v, int y);
 
-    VecLab sgd();
+    VecLab sgd(int numSamples);
     double loss01(int y, int z);
 
     int predict(VecDom x);
     double TrainingError();
     double GeneralizationError();
+
+
+    public:
+        SGDLearner(float rate);
 };
 
 
