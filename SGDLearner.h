@@ -16,6 +16,8 @@ class SGDLearner {
     static const float learningRate;
     static const float numSamples;
 
+    VecLab weights;
+
     VecLab embed(VecDom v, int y);
 
     VecLab sgd();
