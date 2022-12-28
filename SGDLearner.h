@@ -23,6 +23,7 @@ class SGDLearner {
 
     int predict(VecDom x);
     double TrainingError();
+    double GeneralizationError();
 };
 
 

@@ -9,3 +9,7 @@
 double SGDLearner::TrainingError() {
 
 }
+
+double SGDLearner::GeneralizationError() {
+
+}
