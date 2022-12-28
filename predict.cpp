@@ -4,6 +4,8 @@
 
 #include "predict.h"
 
-int predict(VecDom x) {
+#include "SGDLearner.h"
+
+int SGDLearner::predict(VecDom x) {
 
 }

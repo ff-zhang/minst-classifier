@@ -6,7 +6,9 @@
 
 #include "embed.h"
 
-VecLab embed(VecDom v, int y) {
+#include "SGDLearner.h"
+
+SGDLearner::VecLab SGDLearner::embed(VecDom v, int y) {
     VecLab psi = VecLab::Zero();
     psi.segment<784>(784*y) = v;
 }

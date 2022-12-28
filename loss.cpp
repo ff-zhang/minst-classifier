@@ -4,6 +4,8 @@
 
 #include "loss.h"
 
-double loss01(int y, int z) {
-    return !(y == z)?1.0:0.0;
+#include "SGDLearner.h"
+
+double SGDLearner::loss01(int y, int z) {
+    return double(y == z);
 }

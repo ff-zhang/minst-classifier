@@ -4,6 +4,8 @@
 
 #include "error.h"
 
-double TrainingError() {
+#include "SGDLearner.h"
+
+double SGDLearner::TrainingError() {
 
 }

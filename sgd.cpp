@@ -6,6 +6,8 @@
 
 #include "sgd.h"
 
-VecLab sgd(float learningRate, int samples) {
-    // loss function and embedding are fixed
+#include "SGDLearner.h"
+
+SGDLearner::VecLab SGDLearner::sgd() {
+    // learning rate, # of samples, loss function, and embedding are fixed
 }
