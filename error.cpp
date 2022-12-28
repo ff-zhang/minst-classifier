@@ -8,16 +8,16 @@
 
 double SGDLearner::TrainingError(Dataset &data) {
     double accum = 0;
-    for (auto iter = data.training.begin(); iter != data.training.end(); iter++) {
+    for (auto iter = data.trainSet.begin(); iter != data.trainSet.end(); iter++) {
         accum += loss01(predict(std::get<0>(iter)), std::get<1>(iter));
     }
-    return accum / data.trainingSize;
+    return accum / data.numTrain;
 }
 
 double SGDLearner::GeneralizationError(Dataset &data) {
     double accum = 0;
-    for (auto iter = data.test.begin(); iter != data.test.end(); iter++) {
+    for (auto iter = data.testSet.begin(); iter != data.testSet.end(); iter++) {
         accum += loss01(predict(std::get<0>(iter)), std::get<1>(iter));
     }
-    return accum / data.testSize;
+    return accum / data.numTest;
 }
