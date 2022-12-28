@@ -23,8 +23,8 @@ class SGDLearner {
     double loss01(int y, int z);
 
     int predict(VecDom x);
-    double TrainingError();
-    double GeneralizationError();
+    double TrainingError(Dataset &data);
+    double GeneralizationError(Dataset &data);
 
 
     public:
