@@ -9,3 +9,7 @@
 double SGDLearner::loss01(int y, int z) {
     return double(y == z);
 }
+
+double SGDLearner::lossKT(int y, int z) {
+
+}

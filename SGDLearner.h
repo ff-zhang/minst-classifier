@@ -21,6 +21,7 @@ class SGDLearner {
 
     VecLab sgd(int numSamples);
     double loss01(int y, int z);
+    double lossKT(int y, int z);
 
     int predict(VecDom x);
     double TrainingError(Dataset &data);
