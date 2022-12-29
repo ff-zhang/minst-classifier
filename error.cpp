@@ -22,3 +22,4 @@ double SGDLearner::GeneralizationError(Dataset &data) {
     }
     return accum / data.numTest;
 }
+

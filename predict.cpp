@@ -16,3 +16,9 @@ int SGDLearner::predict(VecDom x) {
     }
     return std::get<0>(max);
 }
+
+std::array<int,10> SGDLearner::predictRanking(VecDom x) {
+    //TODO
+    // Should be like predict method but stores all the rankings in order
+    // maybe just put them all in an array and then sort it, idk
+}
