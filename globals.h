@@ -12,4 +12,9 @@ static const int imagePixels = 28 * 28;
 typedef Eigen::Matrix<float, imagePixels, 1> VecDom;
 typedef Eigen::Matrix<float, imagePixels * 10, 1> VecLab;
 
+struct DataPoint {
+    VecDom x;
+    int y;
+};
+
 #endif //MINST_CLASSIFIER_GLOBALS_H

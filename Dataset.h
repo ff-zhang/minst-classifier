@@ -9,14 +9,14 @@
 
 class Dataset {
 private:
-    std::tuple<VecDom, int> readImage(std::array<int, imagePixels> im, int y);
-    
+    DataPoint readImage(std::array<int, imagePixels> im, int y);
+
 public:
     static const int numTrain = 10000;
     static const int numTest = 10000;
-    
-    std::array<std::tuple<VecDom, int>, numTrain> trainSet;
-    std::array<std::tuple<VecDom, int>, numTest> testSet;
+
+    std::array<DataPoint, numTest> trainSet;
+    std::array<DataPoint, numTest> testSet;
 };
 
 

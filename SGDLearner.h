@@ -6,6 +6,7 @@
 #define MNIST_CLASSIFIER_SGDLEARNER_H
 
 #include "globals.h"
+#include "Dataset.h"
 
 class SGDLearner {
     const float learningRate;
