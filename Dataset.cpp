@@ -3,7 +3,3 @@
 //
 
 #include "Dataset.h"
-
-std::tuple<VecDom, int> readImage(std::array<int, imagePixels> im, int y) {
-    
-};

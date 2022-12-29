@@ -9,8 +9,8 @@
 
 static const int imagePixels = 28 * 28;
 
-typedef Eigen::Matrix<float, imagePixels, 1> VecDom;
-typedef Eigen::Matrix<float, imagePixels * 10, 1> VecLab;
+typedef Eigen::Matrix<double, imagePixels, 1> VecDom;
+typedef Eigen::Matrix<double, imagePixels * 10, 1> VecLab;
 
 struct DataPoint {
     VecDom x;
