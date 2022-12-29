@@ -8,6 +8,8 @@
 #include <Eigen/Dense>
 
 static const int imagePixels = 28 * 28;
+static const int NUM_TRAIN = 50000;
+static const int NUM_TEST = 10000;
 
 typedef Eigen::Matrix<double, imagePixels, 1> VecDom;
 typedef Eigen::Matrix<double, imagePixels * 10, 1> VecLab;

@@ -21,6 +21,6 @@ double SGDLearner::lossKT(std::array<int,10> y, std::array<int,10> z) {
             accum += ((0 < z[i]-z[j]) - (z[i]-z[j] < 0) != (0 < y[i]-y[j]) - (y[i]-y[j] < 0));
         }
     }
-    return 2./90. * accum;
+    return accum/90.;
     //2./90. * sum_{i=0}^8 sum_{j=i+1}^9 I(sign(y'_i-y'_j)=/=sign(y_i-y_j)
 }

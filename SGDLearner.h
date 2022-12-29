@@ -16,12 +16,12 @@ class SGDLearner {
 private:
     VecLab embed(VecDom v, int y);
 
-    VecLab sgd(int numSamples);
+    VecLab sgd(int numSamples, Dataset<NUM_TRAIN, NUM_TEST> &data);
     double loss01(int y, int z);
     double lossKT(std::array<int,10> y, std::array<int,10> z);
 
-    double TrainingError(Dataset &data);
-    double GeneralizationError(Dataset &data);
+    double TrainingError(Dataset<NUM_TRAIN, NUM_TEST>  &data);
+    double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST>  &data);
 
 public:
     int predict(VecDom x);
