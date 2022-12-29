@@ -6,6 +6,7 @@
 #define MNIST_CLASSIFIER_SGDLEARNER_H
 
 #include "globals.h"
+#include "Dataset.h"
 
 class SGDLearner {
     const float learningRate;
@@ -17,13 +18,14 @@ private:
 
     VecLab sgd(int numSamples);
     double loss01(int y, int z);
-    double lossKT(int y, int z);
+    double lossKT(std::array<int,10> y, std::array<int,10> z);
 
     double TrainingError(Dataset &data);
     double GeneralizationError(Dataset &data);
 
 public:
     int predict(VecDom x);
+    std::array<int,10> predictRanking(VecDom x);
     SGDLearner(float rate);
 };
 

@@ -7,9 +7,20 @@
 #include "SGDLearner.h"
 
 double SGDLearner::loss01(int y, int z) {
-    return double(y == z);
+    return double(y != z);
 }
 
-double SGDLearner::lossKT(int y, int z) {
 
+
+double SGDLearner::lossKT(std::array<int,10> y, std::array<int,10> z) {
+    //TODO this needs some testing
+    double accum = 0;
+    for (int i=0; i<8; i++) {
+        for (int j=i+1; j<9; j++) {
+            // (0<x) - (x<0) represents the sign of a number
+            accum += ((0 < z[i]-z[j]) - (z[i]-z[j] < 0) != (0 < y[i]-y[j]) - (y[i]-y[j] < 0));
+        }
+    }
+    return 2./90. * accum;
+    //2./90. * sum_{i=0}^8 sum_{j=i+1}^9 I(sign(y'_i-y'_j)=/=sign(y_i-y_j)
 }
