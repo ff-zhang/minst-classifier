@@ -1,15 +1,11 @@
 #include <iostream>
-#include <Eigen/Dense>
 
-using Eigen::MatrixXd;
+#include "Dataset.h"
 
 int main()
 {
-    MatrixXd m(2,2);
-    m(0,0) = 3;
-    m(1,0) = 2.5;
-    m(0,1) = -1;
-    m(1,1) = m(1,0) + m(0,1);
-    std::cout << m << std::endl;
-    std::cout << ":) hello" << std::endl;
+    Dataset<100, 5> mnist = Dataset<100, 5>("./../mnist/train-images.idx3-ubyte",
+                                            "./../mnist/train-labels.idx1-ubyte",
+                                            "./../mnist/t10k-images.idx3-ubyte",
+                                            "./../mnist/t10k-labels.idx1-ubyte");
 }

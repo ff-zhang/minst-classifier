@@ -16,7 +16,7 @@ class Dataset {
 private:
     // only call on initialization
     template<int K>
-    std::array<DataPoint, K> readSet(char* x, char* y);
+    std::array<DataPoint, K> readSet(char* xFile, char* yFile);
 
 public:
     std::array<DataPoint, NUM_TRAIN> trainSet;
@@ -31,11 +31,11 @@ public:
 // template functions MUST be defined in the header file
 template<int NUM_TRAIN, int NUM_TEST>
 template<int K>
-std::array<DataPoint, K> Dataset<NUM_TRAIN, NUM_TEST>::readSet(char* x, char* y) {
+std::array<DataPoint, K> Dataset<NUM_TRAIN, NUM_TEST>::readSet(char* xFile, char* yFile) {
     std::ifstream fDom, fLab;
 
-    fDom.open(x, std::ios::binary | std::ios::in);
-    fLab.open(y, std::ios::binary | std::ios::in);
+    fDom.open(xFile, std::ios::binary | std::ios::in);
+    fLab.open(yFile, std::ios::binary | std::ios::in);
 
     if (!fDom.is_open()) {
         std::cout << "Error with domain file!" << std::endl;
@@ -49,26 +49,30 @@ std::array<DataPoint, K> Dataset<NUM_TRAIN, NUM_TEST>::readSet(char* x, char* y)
     fDom.read(bufferHeader, 16);
     fLab.read(bufferHeader, 8);
 
-    char* bufferDom = new char[imagePixels];
+    char* bufferX = new char[imagePixels];
     char* bufferLab = new char[1];
 
-    while (!fDom.eof()) {
-        fDom.read(bufferDom, imagePixels);
+    std::array<DataPoint, K> points;
+
+    int i = 0;
+    while (!fDom.eof() && i < K) {
+        fDom.read(bufferX, imagePixels);
         fLab.read(bufferLab, 1);
 
-        auto bufferIm = reinterpret_cast<unsigned char*>(bufferDom);
-        auto bufferY = reinterpret_cast<unsigned char*>(bufferLab);
+        auto bufferIm = reinterpret_cast<unsigned char*>(bufferX);
+        auto* bufferDom = new double[784];
+        std::transform(bufferIm, bufferIm + imagePixels, bufferDom,
+                       [](const unsigned char c) -> double { return (double) c; });
+        Eigen::Map<VecDom> point(bufferDom);
 
-//        TODO: implement creation of point
+        points[i] = DataPoint{point, reinterpret_cast<unsigned char*>(bufferLab)[0]};
+        i++;
     }
 
-    // TODO: remove once implemented
-    std::array<DataPoint, K> l;
-    for (int i = 0; i < K; i++) {
-        l[i] = DataPoint{VecDom::Zero(), -1};
-    };
+    fDom.close();
+    fLab.close();
 
-    return l;
+    return points;
 }
 
 #endif //MINST_CLASSIFIER_DATASET_H
