@@ -4,6 +4,6 @@
 
 #include "SGDLearner.h"
 
-SGDLearner::SGDLearner(float rate) : learningRate(rate) {
+SGDLearner::SGDLearner(float rate) : LEARNING_RATE(rate) {
     weights = VecLab::Zero();
 }

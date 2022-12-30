@@ -9,22 +9,23 @@
 #include "Dataset.h"
 
 class SGDLearner {
-    const float learningRate;
+    const float LEARNING_RATE;
 
     VecLab weights;
 
 private:
     VecLab embed(VecDom v, int y);
 
-    VecLab sgd(int numSamples, Dataset<NUM_TRAIN, NUM_TEST> &data);
+    template<int NUM_STEPS>
+    VecLab sgd(Dataset<NUM_TRAIN, NUM_TEST> &data);
     double loss01(int y, int z);
     double lossKT(std::array<int,10> y, std::array<int,10> z);
 
-    double TrainingError(Dataset<NUM_TRAIN, NUM_TEST>  &data);
-    double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST>  &data);
+    double TrainingError(Dataset<NUM_TRAIN, NUM_TEST> &data);
+    double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST> &data);
 
 public:
-    int predict(VecDom x);
+    int predict(const VecDom& x);
     std::array<int,10> predictRanking(VecDom x);
     SGDLearner(float rate);
 };
