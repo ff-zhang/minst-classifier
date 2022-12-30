@@ -49,19 +49,19 @@ std::array<DataPoint, K> Dataset<NUM_TRAIN, NUM_TEST>::readSet(char* xFile, char
     fDom.read(bufferHeader, 16);
     fLab.read(bufferHeader, 8);
 
-    char* bufferX = new char[imagePixels];
+    char* bufferX = new char[IMAGE_SIZE];
     char* bufferLab = new char[1];
 
     std::array<DataPoint, K> points;
 
     int i = 0;
     while (!fDom.eof() && i < K) {
-        fDom.read(bufferX, imagePixels);
+        fDom.read(bufferX, IMAGE_SIZE);
         fLab.read(bufferLab, 1);
 
         auto bufferIm = reinterpret_cast<unsigned char*>(bufferX);
         auto* bufferDom = new double[784];
-        std::transform(bufferIm, bufferIm + imagePixels, bufferDom,
+        std::transform(bufferIm, bufferIm + IMAGE_SIZE, bufferDom,
                        [](const unsigned char c) -> double { return (double) c; });
         Eigen::Map<VecDom> point(bufferDom);
 

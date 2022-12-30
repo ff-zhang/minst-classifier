@@ -3,7 +3,6 @@
 //
 
 #include <random>
-#include "sgd.h"
 
 #include "SGDLearner.h"
 

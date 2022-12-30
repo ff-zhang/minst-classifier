@@ -7,12 +7,12 @@
 
 #include <Eigen/Dense>
 
-static const int imagePixels = 28 * 28;
-static const int NUM_TRAIN = 50000;
+static const int IMAGE_SIZE = 28 * 28;
+static const int NUM_TRAIN = 60000;
 static const int NUM_TEST = 10000;
 
-typedef Eigen::Matrix<double, imagePixels, 1> VecDom;
-typedef Eigen::Matrix<double, imagePixels * 10, 1> VecLab;
+typedef Eigen::Matrix<double, IMAGE_SIZE, 1> VecDom;
+typedef Eigen::Matrix<double, IMAGE_SIZE * 10, 1> VecLab;
 
 struct DataPoint {
     VecDom x;

@@ -4,11 +4,9 @@
 
 #include <Eigen/Dense>
 
-#include "embed.h"
-
 #include "SGDLearner.h"
 
-SGDLearner::VecLab SGDLearner::embed(VecDom v, int y) {
+VecLab SGDLearner::embed(VecDom v, int y) {
     VecLab psi = VecLab::Zero();
-    psi.segment<imagePixels>(imagePixels*y) = v;
+    psi.segment<IMAGE_SIZE>(IMAGE_SIZE * y) = v;
 }

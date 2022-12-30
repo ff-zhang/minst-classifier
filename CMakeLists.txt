@@ -8,11 +8,11 @@ include_directories(${Eigen_INCLUDE_DIR})
 
 add_executable(minst_classifier
         main.cpp
-        sgd.cpp sgd.h
-        loss.cpp loss.h
-        embed.cpp embed.h
-        error.cpp error.h
-        predict.cpp predict.h
+        sgd.cpp
+        loss.cpp
+        embed.cpp
+        error.cpp
+        predict.cpp
         SGDLearner.cpp SGDLearner.h
         Dataset.cpp Dataset.h
         globals.h
