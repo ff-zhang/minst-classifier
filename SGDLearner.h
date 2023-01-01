@@ -11,24 +11,29 @@
 class SGDLearner {
     const float LEARNING_RATE;
 
+private:
     VecLab weights;
 
-private:
     VecLab embed(VecDom v, int y);
 
-    template<int NUM_STEPS>
-    VecLab sgd(Dataset<NUM_TRAIN, NUM_TEST> &data);
     double loss01(int y, int z);
     double lossKT(std::array<int,10> y, std::array<int,10> z);
+
+    VecLab sgd(VecLab& w_t, DataPoint& p);
+
 
     double TrainingError(Dataset<NUM_TRAIN, NUM_TEST> &data);
     double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST> &data);
 
 public:
-    int predict(const VecDom& x);
-    std::array<int,10> predictRanking(VecDom x);
-    SGDLearner(float rate);
-};
+    VecLab& getWeights() { return weights; };
 
+    void train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps);
+
+    int predict(const VecDom &x);
+    std::array<int,10> predictRanking(VecDom x);
+
+    explicit SGDLearner(float learningRate);
+};
 
 #endif //MNIST_CLASSIFIER_SGDLEARNER_H

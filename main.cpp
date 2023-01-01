@@ -1,11 +1,15 @@
-#include <iostream>
+# include "globals.h"
 
 #include "Dataset.h"
+#include "SGDLearner.h"
 
 int main()
 {
-    Dataset<100, 5> mnist = Dataset<100, 5>("./../mnist/train-images.idx3-ubyte",
-                                            "./../mnist/train-labels.idx1-ubyte",
-                                            "./../mnist/t10k-images.idx3-ubyte",
-                                            "./../mnist/t10k-labels.idx1-ubyte");
+    auto* mnist = new Dataset<NUM_TRAIN, NUM_TEST>(TRAIN_IMAGES, TRAIN_LABELS,TEST_IMAGES,
+                                                   TEST_LABELS);
+
+    SGDLearner model = SGDLearner(0.1);
+    model.train(*mnist, 20);
+
+    std::cout << model.getWeights() << std::endl;
 }

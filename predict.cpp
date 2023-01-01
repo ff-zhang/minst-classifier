@@ -4,7 +4,7 @@
 
 #include "SGDLearner.h"
 
-int SGDLearner::predict(VecDom x) {
+int SGDLearner::predict(const VecDom& x) {
     std::tuple<int, double> max = std::make_tuple(0, double(weights.dot(embed(x,0))));
     double weight;
     for (int i = 1; i < 10; i++) {

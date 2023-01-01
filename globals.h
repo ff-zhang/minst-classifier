@@ -7,9 +7,14 @@
 
 #include <Eigen/Dense>
 
-static const int IMAGE_SIZE = 28 * 28;
-static const int NUM_TRAIN = 60000;
-static const int NUM_TEST = 10000;
+static const int IMAGE_SIZE = 784;
+static const int NUM_TRAIN = 1000;
+static const int NUM_TEST = 100;
+
+static std::string TRAIN_IMAGES = "./../mnist/train-images.idx3-ubyte";
+static std::string TRAIN_LABELS = "./../mnist/train-labels.idx1-ubyte";
+static std::string TEST_IMAGES = "./../mnist/t10k-images.idx3-ubyte";
+static std::string TEST_LABELS = "./../mnist/t10k-labels.idx1-ubyte";
 
 typedef Eigen::Matrix<double, IMAGE_SIZE, 1> VecDom;
 typedef Eigen::Matrix<double, IMAGE_SIZE * 10, 1> VecLab;
@@ -19,4 +24,4 @@ struct DataPoint {
     int y;
 };
 
-#endif //MINST_CLASSIFIER_GLOBALS_H
+#endif //MNIST_CLASSIFIER_GLOBALS_H
