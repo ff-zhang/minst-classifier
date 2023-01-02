@@ -17,6 +17,8 @@ class Dataset {
 private:
     // only call on initialization
     template<int K>
+
+    // This function returns a pointer to heap-allocated memory. PLEASE FREE MEMORY WHENEVER USED.
     DataPoint* readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile);
 
 public:
@@ -26,6 +28,12 @@ public:
             const std::filesystem::path& testLabels) {
         trainSet = readSet<NUM_TRAIN>(TRAIN_IMAGES, TRAIN_LABELS);
         testSet = readSet<NUM_TEST>(TEST_IMAGES, TEST_LABELS);
+    }
+
+    ~Dataset() {
+        // Free memory allocated with the "readSet" function
+        delete trainSet;
+        delete testSet;
     }
 };
 

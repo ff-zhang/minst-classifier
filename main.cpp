@@ -12,4 +12,7 @@ int main()
     model->train(*mnist, 20);
 
     std::cout << model->getWeights() << std::endl;
+    
+    delete model;
+    delete mnist;
 }

@@ -14,8 +14,13 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, NUM_TRAIN);
 
+    // Initialize weight vectors
     VecLab* w = new VecLab;
+    *w = VecLab::Zero();
+
     VecLab* accum = new VecLab;
+    *accum = VecLab::Zero();
+
     for (int i = 0; i < numSteps; i++) {
         DataPoint p =  data.trainSet[distrib(gen)];
         *w = SGDLearner::sgd(*w, p);
@@ -29,16 +34,21 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 
 VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
-    std::tuple<double, VecLab> candidate = std::make_tuple(-1, VecLab::Zero());
+    VecLab candidate = VecLab::Zero();
+    int best = -1;
 
     VecLab* diff = new VecLab;
     for (int j = 0; j < 10; j++) {
         *diff = embed(p.x, j) - embed(p.x, p.y);
         double score = loss01(p.y, j) + w_t.dot(*diff);
-        if (score > std::get<0>(candidate)) { candidate = std::make_tuple(score, *diff); }
+        if (score > best)
+        {
+            best = score;
+            candidate = *diff;
+        }
     }
     delete diff;
 
     // return updated weight
-    return w_t - LEARNING_RATE * std::get<1>(candidate);
+    return w_t - LEARNING_RATE * candidate;
 };
