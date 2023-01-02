@@ -7,6 +7,7 @@
 
 #include "globals.h"
 #include "Dataset.h"
+#include <memory>
 
 class SGDLearner {
     const float LEARNING_RATE;
@@ -19,7 +20,7 @@ private:
     double loss01(int y, int z);
     double lossKT(std::array<int,10> y, std::array<int,10> z);
 
-    VecLab sgd(VecLab& w_t, DataPoint& p);
+    std::unique_ptr<VecLab> sgd(VecLab& w_t, DataPoint& p);
 
 public:
     double TrainingError(Dataset<NUM_TRAIN, NUM_TEST>& data);

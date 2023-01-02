@@ -9,13 +9,13 @@ int main()
     auto* mnist = new Dataset<NUM_TRAIN, NUM_TEST>(TRAIN_IMAGES, TRAIN_LABELS,TEST_IMAGES,
                                                    TEST_LABELS);
 
-    auto* model = new SGDLearner(0.1);
-    model->train(*mnist, 20);
+    auto* model = new SGDLearner(0.01);
+    model->train(*mnist, 10000);
 
     Log appLog = Log();
 
-    appLog.logVecLab(model->getWeights());
-    appLog.logVecLabSegment(model->getWeights(), 59, 86);
+    //appLog.logVecLab(model->getWeights());
+    //appLog.logVecLabSegment(model->getWeights(), 59, 86);
 
     double traningError = model->TrainingError(*mnist);
     appLog.logMessage("The training error is: " + std::to_string(traningError));

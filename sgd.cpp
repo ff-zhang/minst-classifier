@@ -2,9 +2,8 @@
 // Created by Felix Zhang on 2022-12-28.
 //
 
-#include <random>
-
 #include "SGDLearner.h"
+#include <random>
 
 // TODO: test
 
@@ -19,22 +18,38 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     *w = VecLab::Zero();
     *accum = VecLab::Zero();
 
+    const int NUM_CHECKPTS = 3;
+    const float checkpoints[NUM_CHECKPTS] = { 25, 50, 75 };
+    int currentCheckpoint = 0;
+
     for (int i = 0; i < numSteps; i++) {
         DataPoint p =  data.trainSet[distrib(gen)];
-        *w = SGDLearner::sgd(*w, p);
+        
+        std::unique_ptr<VecLab> newWeight = SGDLearner::sgd(*w, p);
+        *w = *newWeight;
         *accum += *w;
+
+        // Document training progress to console.
+        float progress = (float)100 * (i + 1) / numSteps;
+        if (progress > checkpoints[currentCheckpoint] && currentCheckpoint < NUM_CHECKPTS)
+        {
+            std::cout << std::format("Training is {:.1f}% complete.\n", progress);
+            currentCheckpoint++;
+        }
     }
     weights = *accum / (numSteps + 1);
+    std::cout << "Training is complete.\n";
 
     delete w;
     delete accum;
 };
 
-VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
+std::unique_ptr<VecLab> SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
-    VecLab candidate = VecLab::Zero();
-    double best = 0;
+    VecLab* candidate = new VecLab;
+    *candidate = VecLab::Zero();
 
+    double best = 0;
     auto* diff = new VecLab;
     for (int j = 0; j < 10; j++) {
         *diff = embed(p.x, j) - embed(p.x, p.y);
@@ -42,11 +57,14 @@ VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
         if (score > best)
         {
             best = score;
-            candidate = *diff;
+            *candidate = *diff;
         }
     }
     delete diff;
 
-    // return updated weight
-    return w_t - LEARNING_RATE * candidate;
+    // Return a pointer to a VecLab containing the updated weights
+    std::unique_ptr<VecLab> output = std::unique_ptr<VecLab>(new VecLab);
+    *output = w_t - LEARNING_RATE * (*candidate);
+
+    return output;
 };

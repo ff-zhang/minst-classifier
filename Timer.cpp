@@ -13,5 +13,5 @@ ScopedTimer::~ScopedTimer()
 {
 	auto endTime = clock.now();
 	int diff = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-	std::cout << name << " counted a time of " << diff << "ms.\n";
+	std::cout << name << " measured a time of " << diff << "ms.\n";
 }
