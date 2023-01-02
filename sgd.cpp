@@ -21,7 +21,7 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
         w = SGDLearner::sgd(w, p);
         accum += w;
     }
-    weights = accum / numSteps;
+    weights = accum / (numSteps + 1);
 };
 
 VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {

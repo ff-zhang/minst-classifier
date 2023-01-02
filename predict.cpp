@@ -17,6 +17,9 @@ int SGDLearner::predict(const VecDom& x) {
 
 std::array<int,10> SGDLearner::predictRanking(VecDom x) {
     //TODO
+
     // Should be like predict method but stores all the rankings in order
     // maybe just put them all in an array and then sort it, idk
+        // so like make an std::Array<std::tuple<double, int>,10> store loss(i) in the ith entry, then sort w.r.t. the double
+        // then return the array of just the ints
 }
