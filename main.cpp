@@ -11,8 +11,9 @@ int main()
     SGDLearner* model = new SGDLearner(0.1);
     model->train(*mnist, 20);
 
-    std::cout << model->getWeights() << std::endl;
-    
+    std::cout << model->getWeights() << ",\n\n";
+    std::cout << "Training Error: " << model->TrainingError(*mnist) << std::endl;
+
     delete model;
     delete mnist;
 }

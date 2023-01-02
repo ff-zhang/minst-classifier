@@ -21,11 +21,11 @@ private:
 
     VecLab sgd(VecLab& w_t, DataPoint& p);
 
-
-    double TrainingError(Dataset<NUM_TRAIN, NUM_TEST> &data);
-    double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST> &data);
-
 public:
+
+    double TrainingError(Dataset<NUM_TRAIN, NUM_TEST>& data);
+    double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST>& data);
+
     VecLab& getWeights() { return weights; };
 
     void train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps);
