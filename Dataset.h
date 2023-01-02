@@ -96,6 +96,8 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
 
     fDom.close();
     fLab.close();
+
+    return points;
 }
 
 #endif //MNIST_CLASSIFIER_DATASET_H
