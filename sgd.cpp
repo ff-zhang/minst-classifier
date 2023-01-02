@@ -3,7 +3,10 @@
 //
 
 #include "SGDLearner.h"
+
+#include <memory>
 #include <random>
+#include <fmt/core.h>
 
 // TODO: test
 
@@ -24,16 +27,16 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 
     for (int i = 0; i < numSteps; i++) {
         DataPoint p =  data.trainSet[distrib(gen)];
-        
+
         std::unique_ptr<VecLab> newWeight = SGDLearner::sgd(*w, p);
         *w = *newWeight;
         *accum += *w;
 
         // Document training progress to console.
-        float progress = (float)100 * (i + 1) / numSteps;
+        float progress = (float) 100 * (i + 1) / numSteps;
         if (progress > checkpoints[currentCheckpoint] && currentCheckpoint < NUM_CHECKPTS)
         {
-            std::cout << std::format("Training is {:.1f}% complete.\n", progress);
+            std::cout << fmt::format("Training is {:.1f}% complete.\n", progress);
             currentCheckpoint++;
         }
     }
@@ -46,7 +49,7 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 
 std::unique_ptr<VecLab> SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
-    VecLab* candidate = new VecLab;
+    auto* candidate = new VecLab;
     *candidate = VecLab::Zero();
 
     double best = 0;
@@ -63,7 +66,7 @@ std::unique_ptr<VecLab> SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     delete diff;
 
     // Return a pointer to a VecLab containing the updated weights
-    std::unique_ptr<VecLab> output = std::unique_ptr<VecLab>(new VecLab);
+    std::unique_ptr<VecLab> output = std::make_unique<VecLab>();
     *output = w_t - LEARNING_RATE * (*candidate);
 
     return output;
