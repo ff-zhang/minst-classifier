@@ -4,8 +4,11 @@
 
 #include "SGDLearner.h"
 #include "Dataset.h"
+#include "Timer.h"
 
 double SGDLearner::TrainingError(Dataset<NUM_TRAIN, NUM_TEST> &data) {
+    ScopedTimer myTimer = ScopedTimer("Training Error Function Timer");
+
     double accum = 0;
     for (int i = 0; i < NUM_TRAIN; i++) {
         auto point = data.trainSet[i];

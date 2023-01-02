@@ -2,6 +2,7 @@
 
 #include "Dataset.h"
 #include "SGDLearner.h"
+#include "Logger.h"
 
 int main()
 {
@@ -11,8 +12,12 @@ int main()
     auto* model = new SGDLearner(0.1);
     model->train(*mnist, 20);
 
-    std::cout << model->getWeights() << ",\n\n";
-    std::cout << "Training Error: " << model->TrainingError(*mnist) << std::endl;
+    Log appLog = Log();
+
+    appLog.logVecLab(model->getWeights());
+
+    double traningError = model->TrainingError(*mnist);
+    appLog.logMessage("The training error is: " + std::to_string(traningError));
 
     delete model;
     delete mnist;
