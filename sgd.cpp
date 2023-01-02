@@ -12,13 +12,15 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     // Generate random seed and rng
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, NUM_TRAIN);
+    std::uniform_int_distribution<> distrib(0, data.trainSet.size());
 
     VecLab w;
     VecLab accum;
+
+    DataPoint* in;
     for (int i = 0; i < numSteps; i++) {
-        DataPoint p =  data.trainSet[distrib(gen)];
-        w = SGDLearner::sgd(w, p);
+        std::advance(in = data.trainSet.begin(), distrib(gen));
+        w = SGDLearner::sgd(w, *in);
         accum += w;
     }
     weights = accum / (numSteps + 1);

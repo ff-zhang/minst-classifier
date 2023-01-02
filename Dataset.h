@@ -15,23 +15,26 @@ class Dataset {
 
 private:
     // only call on initialization
-    template<int K>
-    DataPoint* readSet(const std::string& xFile, const std::string& yFile);
+    template<std::size_t N>
+    void readSet(std::array<DataPoint, N>& set, const std::string& xFile, const std::string& yFile);
 
 public:
-    DataPoint *trainSet, *testSet;
+    std::array<DataPoint, NUM_TRAIN> trainSet;
+    std::array<DataPoint, NUM_TEST> testSet;
+
 
     Dataset(const std::string& trainImages, const std::string& trainLabels, const std::string& testImages,
             const std::string& testLabels) {
-        trainSet = readSet<NUM_TRAIN>(TRAIN_IMAGES, TRAIN_LABELS);
-        testSet = readSet<NUM_TEST>(TEST_IMAGES, TEST_LABELS);
+        readSet<NUM_TRAIN>(trainSet,TRAIN_IMAGES, TRAIN_LABELS);
+        readSet<NUM_TEST>(testSet,TEST_IMAGES, TEST_LABELS);
     }
 };
 
 // template functions MUST be defined in the header file
 template<int NUM_TRAIN, int NUM_TEST>
-template<int K>
-DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::string& xFile, const std::string& yFile) {
+template<std::size_t N>
+void Dataset<NUM_TRAIN, NUM_TEST>::readSet(std::array<DataPoint, N>& set, const std::string& xFile,
+                                           const std::string& yFile) {
     std::ifstream fDom, fLab;
 
     fDom.open(xFile, std::ios::binary | std::ios::in);
@@ -49,13 +52,11 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::string& xFile, const
     fDom.read(bufferHeader, 16);
     fLab.read(bufferHeader, 8);
 
-    char* bufferX = new char[IMAGE_SIZE];;
-
-    auto* points = new DataPoint[K];
+    char* bufferX = new char[IMAGE_SIZE];
     char bufferLab;
 
     int i = 0;
-    while (!fDom.eof() && i < K) {
+    while (!fDom.eof() && i < N) {
         fDom.read(bufferX, IMAGE_SIZE);
         fLab.get(bufferLab);
 
@@ -65,14 +66,12 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::string& xFile, const
                        [](const unsigned char c) -> double { return (double) c; });
         Eigen::Map<VecDom> point(bufferDom);
 
-        points[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
+        set[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
         i++;
     }
 
     fDom.close();
     fLab.close();
-
-    return points;
 }
 
 #endif //MNIST_CLASSIFIER_DATASET_H
