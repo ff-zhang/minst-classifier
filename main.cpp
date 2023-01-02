@@ -15,6 +15,7 @@ int main()
     Log appLog = Log();
 
     appLog.logVecLab(model->getWeights());
+    appLog.logVecLabSegment(model->getWeights(), 59, 86);
 
     double traningError = model->TrainingError(*mnist);
     appLog.logMessage("The training error is: " + std::to_string(traningError));
