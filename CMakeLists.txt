@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 project(mnist_classifier)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 find_package(Eigen3 REQUIRED NO_MODULE)
 include_directories(${Eigen_INCLUDE_DIR})

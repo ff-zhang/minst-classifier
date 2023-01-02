@@ -2,6 +2,8 @@
 // Created by Felix Zhang on 2022-12-28.
 //
 
+/*
+
 #include "SGDLearner.h"
 #include "Dataset.h"
 
@@ -21,3 +23,4 @@ double SGDLearner::GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST> &data) {
     return accum / NUM_TEST;
 }
 
+*/
