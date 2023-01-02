@@ -93,6 +93,7 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
         points[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
         i++;
     }
+    delete bufferX;
 
     fDom.close();
     fLab.close();
