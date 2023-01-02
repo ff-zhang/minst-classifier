@@ -10,7 +10,7 @@ int SGDLearner::predict(const VecDom& x) {
     for (int i = 1; i < 10; i++) {
         weight = double(weights.dot(embed(x,i)));
         if (weight > std::get<1>(max))
-            max = std::make_tuple(0, weight);
+            max = std::make_tuple(i, weight);
     }
     return std::get<0>(max);
 }
