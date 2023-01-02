@@ -8,8 +8,6 @@
 #include <random>
 #include <fmt/core.h>
 
-// TODO: test
-
 void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     // Generate random seed and rng
     std::random_device rd;
@@ -34,8 +32,7 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 
         // Document training progress to console.
         float progress = (float) 100 * (i + 1) / numSteps;
-        if (progress > checkpoints[currentCheckpoint] && currentCheckpoint < NUM_CHECKPTS)
-        {
+        if (progress > checkpoints[currentCheckpoint] && currentCheckpoint < NUM_CHECKPTS) {
             std::cout << fmt::format("Training is {:.1f}% complete.\n", progress);
             currentCheckpoint++;
         }
@@ -57,8 +54,7 @@ std::unique_ptr<VecLab> SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     for (int j = 0; j < 10; j++) {
         *diff = embed(p.x, j) - embed(p.x, p.y);
         double score = loss01(p.y, j) + w_t.dot(*diff);
-        if (score > best)
-        {
+        if (score > best) {
             best = score;
             *candidate = *diff;
         }

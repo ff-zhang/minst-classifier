@@ -17,8 +17,11 @@ int main()
     //appLog.logVecLab(model->getWeights());
     //appLog.logVecLabSegment(model->getWeights(), 59, 86);
 
-    double traningError = model->TrainingError(*mnist);
-    appLog.logMessage("The training error is: " + std::to_string(traningError));
+    double trainingError = model->TrainingError(*mnist);
+    appLog.logMessage("The training error is: " + std::to_string(trainingError));
+
+    double testingError = model->GeneralizationError(*mnist);
+    appLog.logMessage("The testing error is: " + std::to_string(testingError));
 
     delete model;
     delete mnist;
