@@ -9,42 +9,65 @@
 
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 template<int NUM_TRAIN, int NUM_TEST>
 class Dataset {
 
 private:
     // only call on initialization
-    template<std::size_t N>
-    void readSet(std::array<DataPoint, N>& set, const std::string& xFile, const std::string& yFile);
+    template<int K>
+
+    // This function returns a pointer to heap-allocated memory
+    DataPoint* readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile);
 
 public:
     std::array<DataPoint, NUM_TRAIN> trainSet;
     std::array<DataPoint, NUM_TEST> testSet;
 
+    Dataset(const std::filesystem::path& trainImages, const std::filesystem::path& trainLabels, const std::filesystem::path& testImages,
+            const std::filesystem::path& testLabels) {
+        trainSet = readSet<NUM_TRAIN>(TRAIN_IMAGES, TRAIN_LABELS);
+        testSet = readSet<NUM_TEST>(TEST_IMAGES, TEST_LABELS);
+    }
 
-    Dataset(const std::string& trainImages, const std::string& trainLabels, const std::string& testImages,
-            const std::string& testLabels) {
-        readSet<NUM_TRAIN>(trainSet,TRAIN_IMAGES, TRAIN_LABELS);
-        readSet<NUM_TEST>(testSet,TEST_IMAGES, TEST_LABELS);
+    ~Dataset() {
+        // Free memory allocated with the "readSet" function
+        delete trainSet;
+        delete testSet;
     }
 };
 
 // template functions MUST be defined in the header file
 template<int NUM_TRAIN, int NUM_TEST>
-template<std::size_t N>
-void Dataset<NUM_TRAIN, NUM_TEST>::readSet(std::array<DataPoint, N>& set, const std::string& xFile,
-                                           const std::string& yFile) {
+template<int K>
+DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile) {
     std::ifstream fDom, fLab;
 
-    fDom.open(xFile, std::ios::binary | std::ios::in);
-    fLab.open(yFile, std::ios::binary | std::ios::in);
+    // Retrieve training set directory
+    std::filesystem::path currentDir = std::filesystem::current_path();
+
+    // Iterate over the current path from the root to find the project name folder "mnist-classifier".
+    std::filesystem::path srcDir;
+    auto it = currentDir.begin();
+    while(*it != "mnist-classifier" && it != currentDir.end())
+    {
+        srcDir /= *it;
+        it++;
+    }
+    srcDir /= *it;
+
+    std::filesystem::path xFileAbs = (srcDir / xFile).make_preferred();
+    std::filesystem::path yFileAbs = (srcDir / yFile).make_preferred();
+
+    fDom.open(xFileAbs, std::ios::binary | std::ios::in);
+    fLab.open(yFileAbs, std::ios::binary | std::ios::in);
 
     if (!fDom.is_open()) {
-        std::cout << "Error opening \"" << xFile << "\" !" << std::endl;
+        std::cout << "Error opening " << xFileAbs << "!" << std::endl;
     };
     if (!fLab.is_open()) {
-        std::cout << "Error opening \"" << yFile << "\" !" << std::endl;
+        std::cout << "Error opening " << yFileAbs << "!" << std::endl;
     };
 
     // skip the header
@@ -69,6 +92,7 @@ void Dataset<NUM_TRAIN, NUM_TEST>::readSet(std::array<DataPoint, N>& set, const 
         set[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
         i++;
     }
+    delete bufferX;
 
     fDom.close();
     fLab.close();

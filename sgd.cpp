@@ -13,27 +13,42 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distrib(0, data.trainSet.size());
+    
+    // Initialize weight vectors
+    VecLab* w = new VecLab;
+    *w = VecLab::Zero();
 
-    VecLab w;
-    VecLab accum;
+    VecLab* accum = new VecLab;
+    *accum = VecLab::Zero();
 
-    DataPoint* in;
     for (int i = 0; i < numSteps; i++) {
-        std::advance(in = data.trainSet.begin(), distrib(gen));
-        w = SGDLearner::sgd(w, *in);
-        accum += w;
+        DataPoint p =  data.trainSet[distrib(gen)];
+        *w = SGDLearner::sgd(*w, p);
+        *accum += *w;
     }
-    weights = accum / (numSteps + 1);
+    weights = *accum / (numSteps + 1);
+
+    delete w;
+    delete accum;
 };
 
 VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
-    std::tuple<double, VecLab> candidate = std::make_tuple(-1, VecLab::Zero());
+    VecLab candidate = VecLab::Zero();
+    int best = -1;
+
+    VecLab* diff = new VecLab;
     for (int j = 0; j < 10; j++) {
-        VecLab diff = embed(p.x, j) - embed(p.x, p.y);
-        double score = loss01(p.y, j) + w_t.dot(diff);
-        if (score > std::get<0>(candidate)) { candidate = std::make_tuple(score, diff); }
+        *diff = embed(p.x, j) - embed(p.x, p.y);
+        double score = loss01(p.y, j) + w_t.dot(*diff);
+        if (score > best)
+        {
+            best = score;
+            candidate = *diff;
+        }
     }
+    delete diff;
+
     // return updated weight
-    return w_t - LEARNING_RATE * std::get<1>(candidate);
+    return w_t - LEARNING_RATE * candidate;
 };
