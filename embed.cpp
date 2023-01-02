@@ -6,8 +6,9 @@
 
 #include "SGDLearner.h"
 
-VecLab SGDLearner::embed(VecDom v, int y) {
+VecLab SGDLearner::embed(const VecDom& v, int y) {
     VecLab psi = VecLab::Zero();
     psi.segment<IMAGE_SIZE>(IMAGE_SIZE * y) = v;
+
     return psi;
 }

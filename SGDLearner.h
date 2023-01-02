@@ -14,7 +14,7 @@ class SGDLearner {
 private:
     VecLab weights;
 
-    VecLab embed(VecDom v, int y);
+    static VecLab embed(const VecDom& v, int y);
 
     double loss01(int y, int z);
     double lossKT(std::array<int,10> y, std::array<int,10> z);
@@ -22,7 +22,6 @@ private:
     VecLab sgd(VecLab& w_t, DataPoint& p);
 
 public:
-
     double TrainingError(Dataset<NUM_TRAIN, NUM_TEST>& data);
     double GeneralizationError(Dataset<NUM_TRAIN, NUM_TEST>& data);
 

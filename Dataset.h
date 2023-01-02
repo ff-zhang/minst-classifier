@@ -18,11 +18,12 @@ private:
     // only call on initialization
     template<int K>
 
-    // This function returns a pointer to heap-allocated memory. PLEASE FREE MEMORY WHENEVER USED.
+    // This function returns a pointer to heap-allocated memory
     DataPoint* readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile);
 
 public:
-    DataPoint *trainSet, *testSet;
+    std::array<DataPoint, NUM_TRAIN> trainSet;
+    std::array<DataPoint, NUM_TEST> testSet;
 
     Dataset(const std::filesystem::path& trainImages, const std::filesystem::path& trainLabels, const std::filesystem::path& testImages,
             const std::filesystem::path& testLabels) {
@@ -74,13 +75,11 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
     fDom.read(bufferHeader, 16);
     fLab.read(bufferHeader, 8);
 
-    char* bufferX = new char[IMAGE_SIZE];;
-
-    auto* points = new DataPoint[K];
+    char* bufferX = new char[IMAGE_SIZE];
     char bufferLab;
 
     int i = 0;
-    while (!fDom.eof() && i < K) {
+    while (!fDom.eof() && i < N) {
         fDom.read(bufferX, IMAGE_SIZE);
         fLab.get(bufferLab);
 
@@ -90,15 +89,13 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
                        [](const unsigned char c) -> double { return (double) c; });
         Eigen::Map<VecDom> point(bufferDom);
 
-        points[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
+        set[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
         i++;
     }
     delete bufferX;
 
     fDom.close();
     fLab.close();
-
-    return points;
 }
 
 #endif //MNIST_CLASSIFIER_DATASET_H

@@ -12,8 +12,8 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     // Generate random seed and rng
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, NUM_TRAIN);
-
+    std::uniform_int_distribution<> distrib(0, data.trainSet.size());
+    
     // Initialize weight vectors
     VecLab* w = new VecLab;
     *w = VecLab::Zero();
