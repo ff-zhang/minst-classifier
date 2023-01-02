@@ -26,11 +26,12 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 
 VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
-    std::tuple<double, int> candidate = std::make_tuple(-1, 0);
+    std::tuple<double, VecLab> candidate = std::make_tuple(-1, VecLab::Zero());
     for (int j = 0; j < 10; j++) {
-        double score = loss01(p.y, j) + w_t.dot(embed(p.x, j) - embed(p.x, p.y));
-        if (score > std::get<0>(candidate)) { candidate = std::make_tuple(score,j); }
+        VecLab diff = embed(p.x, j) - embed(p.x, p.y);
+        double score = loss01(p.y, j) + w_t.dot(diff);
+        if (score > std::get<0>(candidate)) { candidate = std::make_tuple(score, diff); }
     }
     // return updated weight
-    return w_t - LEARNING_RATE * (embed(p.x, std::get<1>(candidate)) - embed(p.x, p.y));
+    return w_t - LEARNING_RATE * std::get<1>(candidate);
 };
