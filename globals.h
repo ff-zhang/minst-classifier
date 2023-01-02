@@ -8,8 +8,8 @@
 #include <Eigen/Dense>
 
 static const int IMAGE_SIZE = 784;
-static const int NUM_TRAIN = 1000;
-static const int NUM_TEST = 100;
+static const int NUM_TRAIN = 60000;
+static const int NUM_TEST = 10000;
 
 static std::string TRAIN_IMAGES = "./../mnist/train-images.idx3-ubyte";
 static std::string TRAIN_LABELS = "./../mnist/train-labels.idx1-ubyte";
