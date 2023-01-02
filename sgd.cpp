@@ -12,13 +12,11 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     // Generate random seed and rng
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, data.trainSet.size());
-    
-    // Initialize weight vectors
-    VecLab* w = new VecLab;
-    *w = VecLab::Zero();
+    std::uniform_int_distribution<> distrib(0, NUM_TRAIN);
 
-    VecLab* accum = new VecLab;
+    // Initialize weight vectors
+    auto *w = new VecLab, *accum = new VecLab ;
+    *w = VecLab::Zero();
     *accum = VecLab::Zero();
 
     for (int i = 0; i < numSteps; i++) {
@@ -35,9 +33,9 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
 VecLab SGDLearner::sgd(VecLab& w_t, DataPoint& p) {
     // Find argmax
     VecLab candidate = VecLab::Zero();
-    int best = -1;
+    double best = 0;
 
-    VecLab* diff = new VecLab;
+    auto* diff = new VecLab;
     for (int j = 0; j < 10; j++) {
         *diff = embed(p.x, j) - embed(p.x, p.y);
         double score = loss01(p.y, j) + w_t.dot(*diff);

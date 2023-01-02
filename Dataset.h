@@ -16,14 +16,12 @@ class Dataset {
 
 private:
     // only call on initialization
-    template<int K>
-
     // This function returns a pointer to heap-allocated memory
+    template<int N>
     DataPoint* readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile);
 
 public:
-    std::array<DataPoint, NUM_TRAIN> trainSet;
-    std::array<DataPoint, NUM_TEST> testSet;
+    DataPoint *trainSet, *testSet;
 
     Dataset(const std::filesystem::path& trainImages, const std::filesystem::path& trainLabels, const std::filesystem::path& testImages,
             const std::filesystem::path& testLabels) {
@@ -40,7 +38,7 @@ public:
 
 // template functions MUST be defined in the header file
 template<int NUM_TRAIN, int NUM_TEST>
-template<int K>
+template<int N>
 DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xFile, const std::filesystem::path& yFile) {
     std::ifstream fDom, fLab;
 
@@ -76,6 +74,8 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
     fLab.read(bufferHeader, 8);
 
     char* bufferX = new char[IMAGE_SIZE];
+
+    auto* points = new DataPoint[N];
     char bufferLab;
 
     int i = 0;
@@ -89,10 +89,10 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
                        [](const unsigned char c) -> double { return (double) c; });
         Eigen::Map<VecDom> point(bufferDom);
 
-        set[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
+        points[i] = *new DataPoint{point, *reinterpret_cast<unsigned char*>(&bufferLab)};
         i++;
     }
-    delete bufferX;
+    delete[] bufferX;
 
     fDom.close();
     fLab.close();
