@@ -31,8 +31,8 @@ public:
 
     ~Dataset() {
         // Free memory allocated with the "readSet" function
-        delete trainSet;
-        delete testSet;
+        delete[] trainSet;
+        delete[] testSet;
     }
 };
 
