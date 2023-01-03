@@ -19,7 +19,8 @@ add_executable(mnist_classifier
         Dataset.cpp Dataset.h
         globals.h
         Timer.cpp Timer.h
-        Logger.cpp Logger.h)
+        Logger.cpp Logger.h
+        fileHelpers.cpp fileHelpers.h)
 
 target_link_libraries(mnist_classifier Eigen3::Eigen)
 target_link_libraries(mnist_classifier fmt::fmt)

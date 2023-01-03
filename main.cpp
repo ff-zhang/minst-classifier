@@ -10,12 +10,15 @@ int main()
                                                    TEST_LABELS);
 
     auto* model = new SGDLearner(0.01);
-    model->train(*mnist, 10000);
+    //model->train(*mnist, 10000);
+    //model->saveWeigths("weights/model_weights.b");
+
+    model->loadWeigths("weights/model_weights.b");
 
     Log appLog = Log();
 
-    //appLog.logVecLab(model->getWeights());
-    //appLog.logVecLabSegment(model->getWeights(), 59, 86);
+    appLog.logVecLab(model->getWeights());
+    appLog.logVecLabSegment(model->getWeights(), 59, 86);
 
     double trainingError = model->TrainingError(*mnist);
     appLog.logMessage("The training error is: " + std::to_string(trainingError));
