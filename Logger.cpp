@@ -33,6 +33,6 @@ void Log::logVecLabSegment(VecLab& input, int start, int end)
 		outStr += std::to_string(it) + ", ";
 	}
 
-//	logMessage(std::format("[...{}...]", outStr));
+	logMessage(fmt::format("[...{}...]", outStr));
 }
 
