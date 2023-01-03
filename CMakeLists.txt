@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 find_package(Eigen3 REQUIRED NO_MODULE)
 include_directories(${Eigen_INCLUDE_DIR})
 
-find_package(fmt REQUIRED)
-include_directories(${fmt_INCULDE_DIR})
+add_subdirectory(fmt-9.1.0 EXCLUDE_FROM_ALL)
 
 add_executable(mnist_classifier
         main.cpp
