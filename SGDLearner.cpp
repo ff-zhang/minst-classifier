@@ -25,6 +25,7 @@ void SGDLearner::saveWeigths(std::filesystem::path relFilepath)
             double currentValue = *it;
             ostream.write(reinterpret_cast<char*>(&currentValue), sizeof(currentValue));
         }
+        std::cout << fmt::format("Weights successfully saved to \"{}\".\n", path.string());
     }
     else {
         std::cout << fmt::format("Error writing to \"{}\".\n", path.string());
@@ -47,6 +48,7 @@ void SGDLearner::loadWeigths(std::filesystem::path relFilepath)
         }
         Eigen::Map<VecLab> readWeights(inputBuffer);
         weights = readWeights;
+        std::cout << fmt::format("Weights successfully read from \"{}\".\n", path.string());
 
         delete[] inputBuffer;
     }
