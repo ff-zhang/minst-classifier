@@ -6,6 +6,7 @@
 #define MNIST_CLASSIFIER_DATASET_H
 
 #include "globals.h"
+#include "fileHelpers.h"
 
 #include <iostream>
 #include <fstream>
@@ -43,17 +44,7 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
     std::ifstream fDom, fLab;
 
     // Retrieve training set directory
-    std::filesystem::path currentDir = std::filesystem::current_path();
-
-    // Iterate over the current path from the root to find the project name folder "mnist-classifier".
-    std::filesystem::path srcDir;
-    auto it = currentDir.begin();
-    while(*it != "mnist-classifier" && it != currentDir.end())
-    {
-        srcDir /= *it;
-        it++;
-    }
-    srcDir /= *it;
+    auto srcDir = getSrcDir(std::filesystem::current_path());
 
     std::filesystem::path xFileAbs = (srcDir / xFile).make_preferred();
     std::filesystem::path yFileAbs = (srcDir / yFile).make_preferred();
@@ -84,7 +75,7 @@ DataPoint* Dataset<NUM_TRAIN, NUM_TEST>::readSet(const std::filesystem::path& xF
         fLab.get(bufferLab);
 
         auto bufferIm = reinterpret_cast<unsigned char*>(bufferX);
-        auto* bufferDom = new double[784];
+        auto* bufferDom = new double[IMAGE_SIZE];
         std::transform(bufferIm, bufferIm + IMAGE_SIZE, bufferDom,
                        [](const unsigned char c) -> double { return (double) c; });
         Eigen::Map<VecDom> point(bufferDom);

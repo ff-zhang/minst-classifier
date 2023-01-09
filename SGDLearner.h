@@ -8,6 +8,7 @@
 #include "globals.h"
 #include "Dataset.h"
 #include <memory>
+#include <filesystem>
 
 class SGDLearner {
     const float LEARNING_RATE;
@@ -34,6 +35,10 @@ public:
     std::array<int,10> predictRanking(VecDom x);
 
     explicit SGDLearner(float learningRate);
+
+    void saveWeigths(std::filesystem::path relFilepath);
+
+    void loadWeigths(std::filesystem::path relFilepath);
 };
 
 #endif //MNIST_CLASSIFIER_SGDLEARNER_H

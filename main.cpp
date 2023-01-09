@@ -10,7 +10,10 @@ int main()
                                                    TEST_LABELS);
 
     auto* model = new SGDLearner(0.01);
-    model->train(*mnist, 10000);
+    //model->train(*mnist, 10000);
+    //model->saveWeigths("weights/model_weights.b");
+
+    model->loadWeigths("weights/model_weights.b");
 
     Log appLog = Log();
 

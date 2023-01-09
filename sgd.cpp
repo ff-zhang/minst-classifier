@@ -19,8 +19,8 @@ void SGDLearner::train(Dataset<NUM_TRAIN, NUM_TEST> &data, int numSteps) {
     *w = VecLab::Zero();
     *accum = VecLab::Zero();
 
-    const int NUM_CHECKPTS = 3;
-    const float checkpoints[NUM_CHECKPTS] = { 25, 50, 75 };
+    const int NUM_CHECKPTS = 4;
+    const float checkpoints[NUM_CHECKPTS] = { 0, 25, 50, 75 };
     int currentCheckpoint = 0;
 
     for (int i = 0; i < numSteps; i++) {
